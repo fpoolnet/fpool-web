@@ -1,0 +1,18 @@
+{
+  "address": "Enter your address...",
+  "invalidAddress": "Invalid Flokicoin address format",
+  "addressRequired": "Address is required",
+  "time": "Time",
+  "block": "Block",
+  "shares": "Shares",
+  "totalShares": "Total shares",
+  "profit": "Profit (FLC)",
+  "languages": {
+    "en": "English",
+    "ru": "Russian",
+    "cn": "Chinese"
+  },
+  "footer": {
+    "title": "2025 Fpool - Mining has never been so easy 🐟"
+  }
+}

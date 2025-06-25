@@ -1,0 +1,80 @@
+@import './variables';
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+html,
+body,
+#__next {
+  min-height: 100% !important;
+}
+
+body {
+  min-height: 100%;
+  font-family: $font-base;
+  color: $color-black;
+}
+
+pre,
+code {
+  font-family: $font-mono;
+}
+
+code {
+  background-color: $color-grey-950;
+  padding: 0.25rem 0.5rem;
+  margin: 0 0.25rem;
+  border-radius: 0.4rem;
+  font-size: 0.875rem;
+}
+
+code:before,
+code:after {
+  content: '`';
+}
+
+ul,
+li {
+  list-style-position: inside;
+}
+
+header {
+  position: fixed;
+  width: 100%;
+}
+
+.desktop-only {
+  display: none;
+
+  @media screen and (min-width: $phone-breakpoint) {
+    display: block;
+  }
+}
+
+.mobile-only {
+  display: block;
+
+  @media screen and (min-width: $phone-breakpoint) {
+    display: none;
+  }
+}
+
+.responsive-image {
+  max-width: 100%;
+  height: auto;
+  position: relative;
+}
+
+:root {
+  --toastify-color-dark: #373940;
+  --toastify-toast-padding: 10px 25px;
+  --toastify-toast-min-height: 50px;
+  --toastify-toast-offset: 10px;
+  --toastify-toast-width: auto;
+}

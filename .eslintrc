@@ -1,0 +1,101 @@
+{
+  "env": {
+    "browser": false,
+    "node": true,
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+    "plugin:prettier/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint", "prettier", "unused-imports", "import"],
+  "rules": {
+    // Single rules
+    "no-shadow": "off", // Need to be off to use @typescript-eslint/no-shadow rule override
+    "@typescript-eslint/no-shadow": "error",
+    "no-underscore-dangle": "off",
+    "no-unused-vars": "off", // Need to be off to use @typescript-eslint/no-unused-vars rule override
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "vars": "all",
+        "args": "after-used",
+        "ignoreRestSiblings": true,
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "no-use-before-define": "off", // Need to be off to use @typescript-eslint/no-use-before-define rule override
+    "@typescript-eslint/no-use-before-define": "error",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-explicit-any": "off", // TODO: enable
+    "@typescript-eslint/explicit-function-return-type": "off", // TODO: enable
+    "@typescript-eslint/no-useless-empty-export": "error",
+    // Packages rules
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "eslintimport/extensions": "off",
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "parent", "sibling", "index"],
+        "pathGroups": [
+          {
+            "pattern": "{@styles,@components,@hooks,@middlewares,@pages,@services,@store,@utils,@objects*}/**",
+            "group": "parent",
+            "position": "before"
+          },
+          {
+            "pattern": "@*/**",
+            "group": "external",
+            "position": "after"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["builtin"],
+        "newlines-between": "never",
+        "alphabetize": {
+          "order": "asc"
+        }
+      }
+    ],
+    "import/extensions": "off",
+    "import/prefer-default-export": "off",
+    "import/no-cycle": [
+      "off",
+      {
+        "maxDepth": 1
+      }
+    ],
+    "import/no-unresolved": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
+    "sort-imports": ["error", { "ignoreCase": true, "ignoreDeclarationSort": true }]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      },
+      "typescript": {}
+    }
+  }
+}
