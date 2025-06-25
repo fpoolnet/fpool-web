@@ -37,7 +37,9 @@ export const slice = createSlice({
     addPplns: (state: AppState, action: PayloadAction<IPplns>) => {
       const isPplnsExist = !!state.pplns.find((pplns) => pplns.id === action.payload.id);
       if (!isPplnsExist) {
-        state.pplns = [action.payload, ...state.pplns];
+        state.pplns = [action.payload, ...state.pplns].sort(
+          (a, b) => b.blockHeight - a.blockHeight
+        );
       }
     }
   },
