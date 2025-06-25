@@ -24,7 +24,7 @@ interface CustomButtonProps {
   size?: 'small' | 'medium' | 'large' | undefined;
 }
 
-const CustomButton = (props: CustomButtonProps): JSX.Element => {
+const CustomButton = (props: CustomButtonProps) => {
   const {
     onClick,
     children,

@@ -29,7 +29,7 @@ interface CustomTableProps {
   onSelectionChange?: (collection: string[]) => void;
 }
 
-const CustomTable = (props: CustomTableProps): JSX.Element => {
+const CustomTable = (props: CustomTableProps) => {
   const {
     columns,
     hidePagination,

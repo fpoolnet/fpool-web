@@ -1,0 +1,1 @@
+(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[503],{1503:function(e,t,o){"use strict";o.r(t);var r=o(5414);o(8425);var s=o(4663),f=o(2885),n=o.n(f);t.default=()=>{let{t:e}=(0,s.$G)();return(0,r.jsx)("footer",{className:n().footer,children:(0,r.jsxs)("p",{children:[" ",e("footer.title")]})})}},2885:function(e){e.exports={footer:"Footer_footer__Ud_YB"}}}]);

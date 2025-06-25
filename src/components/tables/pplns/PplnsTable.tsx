@@ -9,7 +9,7 @@ import { getPplns as fetchPplns } from '@store/app/AppThunks';
 import { useDispatch, useSelector } from '@store/store';
 import transactionsColumns from './PplnsColumns';
 
-const PplnsTable = (): JSX.Element => {
+const PplnsTable = () => {
   const dispatch = useDispatch();
   const columns = transactionsColumns;
   const pplnsCount = useSelector(getPplnsCount);

@@ -7,7 +7,7 @@ interface CustomTableToolbarProps {
   handleAddNewRow?: () => void;
 }
 
-const CustomTableToolbar = (props: CustomTableToolbarProps): JSX.Element => {
+const CustomTableToolbar = (props: CustomTableToolbarProps) => {
   const { addAction, handleAddNewRow } = props;
   const { t } = useTranslation();
 

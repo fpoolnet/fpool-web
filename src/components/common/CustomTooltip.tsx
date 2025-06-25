@@ -27,7 +27,7 @@ interface CustomTooltipProps {
   textBold?: boolean;
 }
 
-const CustomTooltip = (props: CustomTooltipProps): JSX.Element => {
+const CustomTooltip = (props: CustomTooltipProps) => {
   const {
     children,
     title,

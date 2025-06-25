@@ -1,3 +1,6 @@
+// Black
+export const PRIMARY_BLACK = '#373940';
+
 // Blue
 export const PRIMARY_BLUE = '#0052d1';
 export const SECONDARY_BLUE_1 = '#0965c0';
