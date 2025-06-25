@@ -1,6 +1,6 @@
-# Flokicoin Mining App
+# Fpool Web
 
-Flokicoin Mining App is a tool designed to help you efficiently monitor and manage your mining activities with support for PPLNS.
+Fpool web is a tool designed to help you efficiently monitor and manage your mining activities with support for PPLNS.
 
 ## Overview
 
