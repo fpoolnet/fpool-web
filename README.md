@@ -1,16 +1,13 @@
-# Flokicoin
+# Flokicoin Mining App
 
-Flokicoin is a Layer 1 decentralized, community-driven blockchain focused on transparency, self-custody, and innovation.
+Flokicoin Mining App is a tool designed to help you efficiently monitor and manage your mining activities with support for PPLNS.
 
 ## Overview
 
-- Layer 1 blockchain
-- Scrypt-based (merged mining)
-- 1-minute block time
-- Halving every 210,000 blocks
-- No transaction tax
-- DAO governance
-- Taproot & Lightning support
+- Track solo mining and PPLNS stats
+- User-friendly dashboard
+- Real-time mining performance monitoring
+- Detailed mining analytics
 
 ## Getting Started
 
@@ -24,8 +21,8 @@ Flokicoin is a Layer 1 decentralized, community-driven blockchain focused on tra
 Clone the repository and install dependencies:
 
 ```bash
-git clone https://github.com/flokiorg/your-flokicoin-app.git
-cd your-flokicoin-app
+git clone https://github.com/fpoolnet/fpool-web.git
+cd fpool-web
 npm install
 ```
 
