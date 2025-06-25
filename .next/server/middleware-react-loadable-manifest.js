@@ -1,0 +1,1 @@
+self.__REACT_LOADABLE_MANIFEST="{\"pages/_app.tsx -> @components/layouts/Footer\":{\"id\":\"pages/_app.tsx -> @components/layouts/Footer\",\"files\":[\"static/chunks/src_components_layouts_Footer_tsx.js\"]},\"pages/_app.tsx -> @components/layouts/Header\":{\"id\":\"pages/_app.tsx -> @components/layouts/Header\",\"files\":[\"static/chunks/src_components_layouts_Header_tsx.js\"]}}"
