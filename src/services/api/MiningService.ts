@@ -10,8 +10,7 @@ class MiningService {
   private pplnsSubscription: any;
 
   constructor() {
-    const relays = [RELAY_URL];
-    this.nostrClient = new NostrClient({ relays, privateKey: NOSTR_PRIVATE_KEY });
+    this.nostrClient = new NostrClient({ relayUrl: RELAY_URL, privateKey: NOSTR_PRIVATE_KEY });
   }
 
   subscribePplns(address: string): Observable<any> {

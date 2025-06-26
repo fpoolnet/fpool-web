@@ -2,12 +2,8 @@
 # 📦 Node / Yarn
 # ------------------------------------
 node_modules/
-.yarn/cache/
-.yarn/unplugged/
-.yarn/build-state.yml
-.yarn/global/
-!.yarn/install-state.gz  # Keep for CI/CD
-!.yarnrc.yml             # Yarn 4 config
+.yarn
+.next
 
 # ------------------------------------
 # 🛠️ Build output

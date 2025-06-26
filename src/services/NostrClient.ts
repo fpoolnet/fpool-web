@@ -1,15 +1,15 @@
-import { Filter, getPublicKey, SimplePool } from 'nostr-tools';
+import { Filter, getPublicKey, Relay } from 'nostr-tools';
 import { finalize, Observable, Subject, takeUntil } from 'rxjs';
 import { hexStringToUint8Array } from '@utils/Utils';
 
 export class NostrClient {
-  private pool: SimplePool;
-  private relays: string[];
+  private relay: Relay;
   private publicKey: string;
 
-  constructor(options: { relays: string[]; privateKey: string }) {
-    this.pool = new SimplePool();
-    this.relays = options.relays;
+  constructor(options: { relayUrl: string; privateKey: string }) {
+    this.relay = new Relay(options.relayUrl);
+    this.relay.connect();
+
     const privateKeyUint8Array = hexStringToUint8Array(options.privateKey);
     this.publicKey = getPublicKey(privateKeyUint8Array);
   }
@@ -18,7 +18,7 @@ export class NostrClient {
     const subject$ = new Subject<any>();
     const destroy$ = new Subject<void>();
 
-    const subCloser = this.pool.subscribeMany(this.relays, filters, {
+    const subscription = this.relay.subscribe(filters, {
       onevent(event) {
         subject$.next(event);
       }
@@ -27,7 +27,7 @@ export class NostrClient {
     const observable$ = subject$.pipe(
       takeUntil(destroy$),
       finalize(() => {
-        subCloser.close();
+        subscription.close();
       })
     );
 

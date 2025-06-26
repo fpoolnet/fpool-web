@@ -12,8 +12,12 @@ const Header = () => {
     <AppBar position="fixed" className={styles.header}>
       <Toolbar disableGutters className={styles.toolbar}>
         <Box>
-          <img src="/assets/icon.svg" alt="Mobile Logo" className={styles.mobileLogo} />
-          <img src="/assets/logo.svg" alt="Logo" className={styles.logo} />
+          <a href="/">
+            <img src="/assets/icon.svg" alt="Mobile Logo" className={styles.mobileLogo} />
+          </a>
+          <a href="/">
+            <img src="/assets/logo.svg" alt="Logo" className={styles.logo} />
+          </a>
         </Box>
         <Connect />
         <div className={styles.rightContent}>
