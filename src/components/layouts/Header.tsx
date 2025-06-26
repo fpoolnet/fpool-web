@@ -1,3 +1,5 @@
+import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 import { Box } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
@@ -12,12 +14,28 @@ const Header = () => {
     <AppBar position="fixed" className={styles.header}>
       <Toolbar disableGutters className={styles.toolbar}>
         <Box>
-          <a href="/">
-            <img src="/assets/icon.svg" alt="Mobile Logo" className={styles.mobileLogo} />
-          </a>
-          <a href="/">
-            <img src="/assets/logo.svg" alt="Logo" className={styles.logo} />
-          </a>
+          <Link href="/" passHref>
+            <a>
+              <Image
+                src="/assets/icon.svg"
+                alt="Mobile Logo"
+                className={styles.mobileLogo}
+                width={32}
+                height={32}
+              />
+            </a>
+          </Link>
+          <Link href="/" passHref>
+            <a>
+              <Image
+                src="/assets/logo.svg"
+                alt="Logo"
+                className={styles.logo}
+                width={128}
+                height={64}
+              />
+            </a>
+          </Link>
         </Box>
         <Connect />
         <div className={styles.rightContent}>
