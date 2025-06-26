@@ -12,6 +12,7 @@ build/
 dist/
 out/
 .vite/
+tsconfig.tsbuildinfo
 
 # ------------------------------------
 # 🧪 Env files

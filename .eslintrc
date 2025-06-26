@@ -1,6 +1,6 @@
 {
   "env": {
-    "browser": false,
+    "browser": true,
     "node": true,
     "es2021": true
   },
@@ -14,16 +14,17 @@
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": 12,
-    "sourceType": "module"
+    "ecmaVersion": 2021,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
   },
   "plugins": ["@typescript-eslint", "prettier", "unused-imports", "import"],
   "rules": {
-    // Single rules
-    "no-shadow": "off", // Need to be off to use @typescript-eslint/no-shadow rule override
     "@typescript-eslint/no-shadow": "error",
-    "no-underscore-dangle": "off",
-    "no-unused-vars": "off", // Need to be off to use @typescript-eslint/no-unused-vars rule override
+    "no-shadow": "off",
+
     "@typescript-eslint/no-unused-vars": [
       "error",
       {
@@ -33,13 +34,16 @@
         "argsIgnorePattern": "^_"
       }
     ],
-    "no-use-before-define": "off", // Need to be off to use @typescript-eslint/no-use-before-define rule override
+    "no-unused-vars": "off",
+
     "@typescript-eslint/no-use-before-define": "error",
+    "no-use-before-define": "off",
+
     "@typescript-eslint/no-non-null-assertion": "off",
-    "@typescript-eslint/no-explicit-any": "off", // TODO: enable
-    "@typescript-eslint/explicit-function-return-type": "off", // TODO: enable
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-useless-empty-export": "error",
-    // Packages rules
+
     "unused-imports/no-unused-imports": "error",
     "unused-imports/no-unused-vars": [
       "warn",
@@ -50,7 +54,7 @@
         "argsIgnorePattern": "^_"
       }
     ],
-    "eslintimport/extensions": "off",
+
     "import/order": [
       "error",
       {
@@ -70,26 +74,32 @@
         "pathGroupsExcludedImportTypes": ["builtin"],
         "newlines-between": "never",
         "alphabetize": {
-          "order": "asc"
+          "order": "asc",
+          "caseInsensitive": true
         }
       }
     ],
     "import/extensions": "off",
     "import/prefer-default-export": "off",
-    "import/no-cycle": [
-      "off",
-      {
-        "maxDepth": 1
-      }
-    ],
+    "import/no-cycle": "off",
     "import/no-unresolved": "off",
+
     "prettier/prettier": [
       "error",
       {
         "endOfLine": "auto"
       }
     ],
-    "sort-imports": ["error", { "ignoreCase": true, "ignoreDeclarationSort": true }]
+
+    "sort-imports": [
+      "error",
+      {
+        "ignoreCase": true,
+        "ignoreDeclarationSort": true
+      }
+    ],
+
+    "@next/next/no-html-link-for-pages": "off"
   },
   "settings": {
     "import/resolver": {

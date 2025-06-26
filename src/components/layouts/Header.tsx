@@ -15,26 +15,22 @@ const Header = () => {
       <Toolbar disableGutters className={styles.toolbar}>
         <Box>
           <Link href="/" passHref>
-            <a>
-              <Image
-                src="/assets/icon.svg"
-                alt="Mobile Logo"
-                className={styles.mobileLogo}
-                width={32}
-                height={32}
-              />
-            </a>
+            <Image
+              src="/assets/icon.svg"
+              alt="Mobile Logo"
+              className={styles.mobileLogo}
+              width={32}
+              height={32}
+            />
           </Link>
           <Link href="/" passHref>
-            <a>
-              <Image
-                src="/assets/logo.svg"
-                alt="Logo"
-                className={styles.logo}
-                width={128}
-                height={64}
-              />
-            </a>
+            <Image
+              src="/assets/logo.svg"
+              alt="Logo"
+              className={styles.logo}
+              width={128}
+              height={64}
+            />
           </Link>
         </Box>
         <Connect />

@@ -1,3 +1,19 @@
 {
-  "address": "Enter your address..."
+  "address": "输入您的地址...",
+  "invalidAddress": "无效的 Flokicoin 地址格式",
+  "addressRequired": "需要地址",
+  "time": "时间",
+  "block": "区块",
+  "shares": "股份",
+  "totalShares": "总股份",
+  "profit": "利润 (FLC)",
+  "pageNotFound": "找不到该页面",
+  "languages": {
+    "en": "英语",
+    "ru": "俄语",
+    "cn": "中文"
+  },
+  "footer": {
+    "title": "2025 Fpool - 挖矿从未如此简单 🐟"
+  }
 }
