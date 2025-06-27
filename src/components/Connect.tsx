@@ -6,12 +6,14 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import SearchIcon from '@mui/icons-material/Search';
 import { SearchIconWrapper, SearchInput, StyledInputBase } from '@components/styled/SearchInput';
-import { addAddress, clearAddress } from '@store/app/AppReducer';
 import { getAddress } from '@store/app/AppSelectors';
 import { useDispatch, useSelector } from '@store/store';
 import { PRIMARY_RED, SECONDARY_GREY_1 } from '@styles/colors';
-import { validateAddress } from '@utils/Utils';
+import { getPplns as fetchPplns, stopPplns } from '@store/app/AppThunks';
 import CustomTooltip from './common/CustomTooltip';
+import { stopCoverage } from 'node:v8';
+import { addAddress, clearAddress } from '@store/app/AppReducer';
+import { validateAddress } from '@utils/Utils';
 
 interface ConnectFormData {
   address: string;
@@ -27,13 +29,14 @@ const Connect = () => {
   const validationSchema = Yup.object().shape({
     address: Yup.string()
       .required(t('addressRequired'))
-      .matches(/^[a-zA-Z0-9]{30,}$/, t('invalidAddress'))
+      .matches(/^[a-zA-Z0-9]{30,}$/, t('invalidAddressFormat'))
   });
 
   const {
     register,
     handleSubmit,
     setError,
+    clearErrors,
     formState: { errors }
   } = useForm<ConnectFormData>({
     resolver: yupResolver(validationSchema)
@@ -41,9 +44,11 @@ const Connect = () => {
 
   const onSubmit = (data: ConnectFormData) => {
     try {
+      dispatch(clearAddress());
       validateAddress(data.address);
+      router.replace(`/address/${data.address}`);
       dispatch(addAddress(data.address));
-      router.replace(`/address/${data.address}`, undefined, { shallow: true });
+      dispatch(fetchPplns(data.address));
     } catch (err) {
       setError('address', {
         type: 'manual',
@@ -54,12 +59,13 @@ const Connect = () => {
 
   const onChangeAddress = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
-    dispatch(clearAddress());
+    dispatch(stopPplns());
   };
 
   useEffect(() => {
     if (address) {
       setInputValue(address);
+      clearErrors();
     }
   }, [address]);
 
@@ -70,7 +76,7 @@ const Connect = () => {
           <SearchIcon />
         </SearchIconWrapper>
         <CustomTooltip
-          title={errors.address ? t('invalidAddress') : ''}
+          title={errors.address?.message}
           placement="bottom"
           textColor={PRIMARY_RED}
           backgroundColor={SECONDARY_GREY_1}

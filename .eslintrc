@@ -95,7 +95,8 @@
       "error",
       {
         "ignoreCase": true,
-        "ignoreDeclarationSort": true
+        "ignoreDeclarationSort": true,
+        "memberSyntaxSortOrder": ["none", "all", "multiple", "single"]
       }
     ],
 

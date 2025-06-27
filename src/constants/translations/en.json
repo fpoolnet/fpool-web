@@ -1,6 +1,7 @@
 {
   "address": "Enter your address...",
-  "invalidAddress": "Invalid Flokicoin address format",
+  "invalidAddressFormat": "Invalid Flokicoin address format",
+  "invalidAddress": "Invalid Flokicoin address",
   "addressRequired": "Address is required",
   "time": "Time",
   "block": "Block",
@@ -10,8 +11,8 @@
   "pageNotFound": "This page could not be found",
   "languages": {
     "en": "English",
-    "ru": "Russian",
-    "cn": "Chinese"
+    "ru": "Русский",
+    "cn": "中文"
   },
   "footer": {
     "title": "2025 Fpool - Mining has never been so easy 🐟"

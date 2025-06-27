@@ -3,9 +3,7 @@ import Box from '@mui/material/Box';
 import CustomTable from '@components/common/CustomTable';
 import ProgressLoader from '@components/common/ProgressLoader';
 import CenteredContentContainer from '@components/styled/CenteredContentContainer';
-import { clearPplns } from '@store/app/AppReducer';
-import { getAddress, getIsLoading, getPplns, getPplnsCount } from '@store/app/AppSelectors';
-import { getPplns as fetchPplns } from '@store/app/AppThunks';
+import { getIsLoading, getPplns, getPplnsCount } from '@store/app/AppSelectors';
 import { useDispatch, useSelector } from '@store/store';
 import transactionsColumns from './PplnsColumns';
 
@@ -15,16 +13,8 @@ const PplnsTable = () => {
   const pplnsCount = useSelector(getPplnsCount);
   const isLoading = useSelector(getIsLoading);
   const pplns = useSelector(getPplns);
-  const address = useSelector(getAddress);
 
   const [dataTable, setDataTable] = useState<any>([]);
-
-  useEffect(() => {
-    if (address) {
-      dispatch(clearPplns());
-      dispatch(fetchPplns(address));
-    }
-  }, [address]);
 
   useEffect(() => {
     if (pplns?.length) {

@@ -6,6 +6,7 @@
     "build": "next build",
     "start": "next start",
     "serve": "npx serve out",
+    "pages": "npx wrangler pages dev out",
     "lint": "next lint"
   },
   "dependencies": {

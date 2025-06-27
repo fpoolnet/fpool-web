@@ -1,5 +1,6 @@
 {
   "address": "输入您的地址...",
+  "invalidAddressFormat": "无效的 Flokicoin 地址格式",
   "invalidAddress": "无效的 Flokicoin 地址格式",
   "addressRequired": "需要地址",
   "time": "时间",
@@ -9,8 +10,8 @@
   "profit": "利润 (FLC)",
   "pageNotFound": "找不到该页面",
   "languages": {
-    "en": "英语",
-    "ru": "俄语",
+    "en": "English",
+    "ru": "Русский",
     "cn": "中文"
   },
   "footer": {

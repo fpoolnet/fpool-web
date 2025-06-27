@@ -1,6 +1,6 @@
 import MiningService from '@services/api/MiningService';
 import { createAppAsyncThunk } from '@store/createAppAsyncThunk';
-import { addPplns } from './AppReducer';
+import { addPplns, clearPplns, setLoader } from './AppReducer';
 
 export const getPplns = createAppAsyncThunk(
   'relay/getPplns',
@@ -24,3 +24,16 @@ export const getPplns = createAppAsyncThunk(
     }
   }
 );
+
+export const stopPplns = createAppAsyncThunk('relay/stopPplns', async (_, { rejectWithValue }) => {
+  try {
+    MiningService.stopPplns();
+    return;
+  } catch (err: any) {
+    return rejectWithValue({
+      message: err?.message,
+      code: err.code,
+      status: err.status
+    });
+  }
+});

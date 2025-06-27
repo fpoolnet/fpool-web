@@ -1,16 +1,14 @@
-import { Box } from '@mui/material';
-import PplnsTable from '@components/tables/pplns/PplnsTable';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 const Home = () => {
-  return (
-    <Box
-      sx={{
-        width: '100%',
-        maxWidth: 800
-      }}>
-      <PplnsTable />
-    </Box>
-  );
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push('/404');
+  }, [router]);
+
+  return null;
 };
 
 export default Home;

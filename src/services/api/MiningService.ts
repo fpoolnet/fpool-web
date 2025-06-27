@@ -6,18 +6,15 @@ import { getTimeBeforeDaysInSeconds } from '@utils/Utils';
 import { beautify } from '@utils/beautifierUtils';
 
 class MiningService {
-  private nostrClient: NostrClient;
-  private pplnsSubscription: any;
+  public nostrClient: NostrClient;
+  public pplnsSubscription: any;
 
   constructor() {
     this.nostrClient = new NostrClient({ relayUrl: RELAY_URL, privateKey: NOSTR_PRIVATE_KEY });
   }
 
   subscribePplns(address: string): Observable<any> {
-    if (this.pplnsSubscription) {
-      this.pplnsSubscription.destroy();
-      this.pplnsSubscription = null;
-    }
+    this.stopPplns();
 
     const filters: Filter[] = [
       {
@@ -32,7 +29,7 @@ class MiningService {
       }
     ];
 
-    const { observable$, destroy } = this.nostrClient.subscribeEvent(filters);
+    const { relaySubscription, observable$, destroy } = this.nostrClient.subscribeEvent(filters);
 
     const beautifiedObservable$ = new Observable<any>((subscriber) => {
       const subscription = observable$.subscribe({
@@ -54,8 +51,15 @@ class MiningService {
       };
     });
 
-    this.pplnsSubscription = { observable$: beautifiedObservable$, destroy };
+    this.pplnsSubscription = { relaySubscription, observable$: beautifiedObservable$, destroy };
     return beautifiedObservable$;
+  }
+
+  stopPplns() {
+    if (this.pplnsSubscription) {
+      this.pplnsSubscription.destroy();
+      this.pplnsSubscription = null;
+    }
   }
 }
 

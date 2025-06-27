@@ -3,7 +3,7 @@ import { finalize, Observable, Subject, takeUntil } from 'rxjs';
 import { hexStringToUint8Array } from '@utils/Utils';
 
 export class NostrClient {
-  private relay: Relay;
+  public relay: Relay;
   private publicKey: string;
 
   constructor(options: { relayUrl: string; privateKey: string }) {
@@ -14,7 +14,7 @@ export class NostrClient {
     this.publicKey = getPublicKey(privateKeyUint8Array);
   }
 
-  subscribeEvent(filters: Filter[]): { observable$: Observable<any>; destroy: () => void } {
+  subscribeEvent(filters: Filter[]) {
     const subject$ = new Subject<any>();
     const destroy$ = new Subject<void>();
 
@@ -32,6 +32,7 @@ export class NostrClient {
     );
 
     return {
+      relaySubscription: subscription,
       observable$,
       destroy: () => {
         destroy$.next();

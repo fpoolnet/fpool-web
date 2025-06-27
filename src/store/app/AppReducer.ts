@@ -2,7 +2,7 @@
 import { ICustomError } from '@interfaces/ICustomError';
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { IPplns } from '@objects/interfaces/IPplns';
-import { getPplns } from '@store/app/AppThunks';
+import { getPplns, stopPplns } from '@store/app/AppThunks';
 
 /* Instruments */
 
@@ -34,6 +34,9 @@ export const slice = createSlice({
     clearPplns: (state: AppState) => {
       state.pplns = [];
     },
+    setLoader: (state: AppState, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
+    },
     addPplns: (state: AppState, action: PayloadAction<IPplns>) => {
       state.pplns = [action.payload, ...state.pplns];
     }
@@ -42,6 +45,7 @@ export const slice = createSlice({
     builder
 
       .addCase(getPplns.pending, (state) => {
+        state.pplns = [];
         state.isLoading = true;
       })
       .addCase(getPplns.fulfilled, (state) => {
@@ -50,12 +54,22 @@ export const slice = createSlice({
       .addCase(getPplns.rejected, (state, action) => {
         state.error = action.payload;
         state.isLoading = false;
+      })
+      .addCase(stopPplns.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(stopPplns.fulfilled, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(stopPplns.rejected, (state, action) => {
+        state.error = action.payload;
+        state.isLoading = false;
       });
   }
 });
 
 const { reducer: appReducer } = slice;
 
-export const { addPplns, addAddress, clearAddress, clearPplns } = slice.actions;
+export const { addPplns, addAddress, clearAddress, clearPplns, setLoader } = slice.actions;
 
 export default appReducer;

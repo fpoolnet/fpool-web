@@ -5,7 +5,9 @@ import { useNotification } from '@hooks/UseNotificationHook';
 import { addAddress } from '@store/app/AppReducer';
 import { useDispatch } from '@store/store';
 import { validateAddress } from '@utils/Utils';
-import Home from '../index';
+import { getPplns } from '@store/app/AppThunks';
+import { Box } from '@mui/material';
+import PplnsTable from '@components/tables/pplns/PplnsTable';
 
 const AddressPage = () => {
   const router = useRouter();
@@ -19,6 +21,7 @@ const AddressPage = () => {
       try {
         validateAddress(addr);
         dispatch(addAddress(addr));
+        dispatch(getPplns(addr));
       } catch (err) {
         showError({
           message: t('invalidAddress'),
@@ -30,7 +33,15 @@ const AddressPage = () => {
     }
   }, [addr]);
 
-  return <Home />;
+  return (
+    <Box
+      sx={{
+        width: '100%',
+        maxWidth: 800
+      }}>
+      <PplnsTable />
+    </Box>
+  );
 };
 
 export default AddressPage;
