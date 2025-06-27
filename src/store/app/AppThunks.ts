@@ -1,18 +1,19 @@
 import MiningService from '@services/api/MiningService';
 import { createAppAsyncThunk } from '@store/createAppAsyncThunk';
 import { addPplns, clearPplns, setLoader } from './AppReducer';
+import { beautify } from '@utils/beautifierUtils';
 
 export const getPplns = createAppAsyncThunk(
   'relay/getPplns',
   async (address: string, { rejectWithValue, dispatch }) => {
     try {
-      const observable$ = MiningService.subscribePplns(address);
-      observable$.subscribe({
-        next: (pplns) => {
+      MiningService.subscribePplns(address, {
+        onevent: (event) => {
+          const pplns = beautify(event);
           dispatch(addPplns(pplns));
         },
-        error: (err) => {
-          throw err;
+        oneose: () => {
+          dispatch(setLoader(false));
         }
       });
     } catch (err: any) {

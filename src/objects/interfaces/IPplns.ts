@@ -4,6 +4,7 @@ export interface IPplns {
   blockHeight: number;
   blockHash: string;
   amount: number;
+  txHash: string;
   shares: number;
   totalShares: number;
   createdAt: string;

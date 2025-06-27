@@ -11,8 +11,7 @@ const ProgressLoader = ({ value, ...otherProps }: LoaderProps) => {
       sx={{
         zIndex: 100,
         position: 'absolute',
-        top: '30%',
-        left: '45%'
+        top: '30%'
       }}>
       {value && <CircularProgress variant="determinate" value={value} {...otherProps} size={60} />}
       {value && (
@@ -26,7 +25,7 @@ const ProgressLoader = ({ value, ...otherProps }: LoaderProps) => {
             fontWeight: '600',
             fontSize: '20px'
           }}>
-          {`${Math.round(value)}%`}
+          {`${Math.round(value)}`}
         </Box>
       )}
     </Box>

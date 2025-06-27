@@ -1,6 +1,6 @@
 import { Filter, getPublicKey, Relay } from 'nostr-tools';
-import { finalize, Observable, Subject, takeUntil } from 'rxjs';
 import { hexStringToUint8Array } from '@utils/Utils';
+import { SubscriptionParams } from 'nostr-tools/lib/types/relay';
 
 export class NostrClient {
   public relay: Relay;
@@ -14,30 +14,8 @@ export class NostrClient {
     this.publicKey = getPublicKey(privateKeyUint8Array);
   }
 
-  subscribeEvent(filters: Filter[]) {
-    const subject$ = new Subject<any>();
-    const destroy$ = new Subject<void>();
-
-    const subscription = this.relay.subscribe(filters, {
-      onevent(event) {
-        subject$.next(event);
-      }
-    });
-
-    const observable$ = subject$.pipe(
-      takeUntil(destroy$),
-      finalize(() => {
-        subscription.close();
-      })
-    );
-
-    return {
-      relaySubscription: subscription,
-      observable$,
-      destroy: () => {
-        destroy$.next();
-        destroy$.complete();
-      }
-    };
+  subscribeEvent(filters: Filter[], subscriptionParams: SubscriptionParams) {
+    const subscription = this.relay.subscribe(filters, subscriptionParams);
+    return subscription;
   }
 }

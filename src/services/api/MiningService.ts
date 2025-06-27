@@ -4,6 +4,7 @@ import { NOSTR_PRIVATE_KEY, RELAY_URL } from '@constants/config';
 import { NostrClient } from '@services/NostrClient';
 import { getTimeBeforeDaysInSeconds } from '@utils/Utils';
 import { beautify } from '@utils/beautifierUtils';
+import { SubscriptionParams } from 'nostr-tools/lib/types/relay';
 
 class MiningService {
   public nostrClient: NostrClient;
@@ -13,7 +14,7 @@ class MiningService {
     this.nostrClient = new NostrClient({ relayUrl: RELAY_URL, privateKey: NOSTR_PRIVATE_KEY });
   }
 
-  subscribePplns(address: string): Observable<any> {
+  subscribePplns(address: string, subscriptionParams: SubscriptionParams) {
     this.stopPplns();
 
     const filters: Filter[] = [
@@ -29,35 +30,13 @@ class MiningService {
       }
     ];
 
-    const { relaySubscription, observable$, destroy } = this.nostrClient.subscribeEvent(filters);
-
-    const beautifiedObservable$ = new Observable<any>((subscriber) => {
-      const subscription = observable$.subscribe({
-        next: (event: any) => {
-          try {
-            const beautifiedEvent = beautify(event);
-            subscriber.next(beautifiedEvent);
-          } catch (error) {
-            subscriber.error(error);
-          }
-        },
-        error: (error: any) => subscriber.error(error),
-        complete: () => subscriber.complete()
-      });
-
-      return () => {
-        subscription.unsubscribe();
-        destroy();
-      };
-    });
-
-    this.pplnsSubscription = { relaySubscription, observable$: beautifiedObservable$, destroy };
-    return beautifiedObservable$;
+    this.pplnsSubscription = this.nostrClient.subscribeEvent(filters, subscriptionParams);
+    return this.pplnsSubscription;
   }
 
   stopPplns() {
     if (this.pplnsSubscription) {
-      this.pplnsSubscription.destroy();
+      this.pplnsSubscription.close();
       this.pplnsSubscription = null;
     }
   }

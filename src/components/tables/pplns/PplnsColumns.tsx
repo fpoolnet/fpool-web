@@ -1,5 +1,9 @@
+import CustomTooltip from '@components/common/CustomTooltip';
+import { Chip } from '@mui/material';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import { EXPLORER_URL } from '@constants/config';
 
 const transactionsColumns = () => {
   const { t } = useTranslation();
@@ -19,7 +23,18 @@ const transactionsColumns = () => {
       flex: 1,
       minWidth: 100,
       headerClassName: 'text-blue text-uppercase',
-      cellClassName: 'text-blue'
+      cellClassName: 'text-blue',
+      renderCell: (params: any) => (
+        <Chip
+          label={params.value}
+          sx={{ fontWeight: 'bold' }}
+          size="small"
+          component="a"
+          target="_blank"
+          href={`${EXPLORER_URL}/block/${params.row.blockHash}`}
+          clickable
+        />
+      )
     },
     {
       headerName: t('shares'),
@@ -44,7 +59,19 @@ const transactionsColumns = () => {
       minWidth: 120,
       headerClassName: 'text-blue text-uppercase',
       cellClassName: 'text-blue text-bold',
-      valueFormatter: (value: any) => (value / 100000000).toFixed(6)
+      renderCell: (params: any) => (
+        <Chip
+          label={(params.value / 100000000).toFixed(6)}
+          color="primary"
+          variant="outlined"
+          sx={{ fontWeight: 'bold' }}
+          size="small"
+          component="a"
+          target="_blank"
+          href={`${EXPLORER_URL}/tx/${params.row.txHash}`}
+          clickable
+        />
+      )
     }
   ];
 };

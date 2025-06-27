@@ -48,18 +48,14 @@ export const slice = createSlice({
         state.pplns = [];
         state.isLoading = true;
       })
-      .addCase(getPplns.fulfilled, (state) => {
-        state.isLoading = false;
-      })
+      .addCase(getPplns.fulfilled, (state) => {})
       .addCase(getPplns.rejected, (state, action) => {
         state.error = action.payload;
         state.isLoading = false;
       })
-      .addCase(stopPplns.pending, (state) => {
-        state.isLoading = true;
-      })
+      .addCase(stopPplns.pending, (state) => {})
       .addCase(stopPplns.fulfilled, (state) => {
-        state.isLoading = false;
+        state.pplns = [];
       })
       .addCase(stopPplns.rejected, (state, action) => {
         state.error = action.payload;

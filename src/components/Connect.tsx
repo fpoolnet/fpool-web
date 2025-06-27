@@ -36,7 +36,7 @@ const Connect = () => {
     register,
     handleSubmit,
     setError,
-    clearErrors,
+    reset,
     formState: { errors }
   } = useForm<ConnectFormData>({
     resolver: yupResolver(validationSchema)
@@ -65,7 +65,7 @@ const Connect = () => {
   useEffect(() => {
     if (address) {
       setInputValue(address);
-      clearErrors();
+      reset({ address });
     }
   }, [address]);
 
