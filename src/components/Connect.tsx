@@ -23,6 +23,7 @@ import {
   ConnectedAddressIconWrapper,
   StyledAddressButton
 } from './styled/ConnectedAddressButton';
+import { useNotification } from '@hooks/UseNotificationHook';
 
 interface ConnectFormData {
   address: string;
@@ -35,6 +36,7 @@ const Connect = () => {
   const router = useRouter();
   const [inputVisible, setInputVisible] = useState(false);
   const isMobile = isMobileDevice();
+  const { showError } = useNotification();
 
   const validationSchema = Yup.object().shape({
     address: Yup.string()
@@ -78,6 +80,18 @@ const Connect = () => {
     }
   }, [address]);
 
+  useEffect(() => {
+    if (errors.address?.message) {
+      showError({
+        message: errors.address?.message,
+        options: {
+          position: 'bottom-center',
+          toastId: errors.address.type
+        }
+      });
+    }
+  }, [errors]);
+
   return (
     <>
       {inputVisible && (
@@ -86,18 +100,11 @@ const Connect = () => {
             <AddressIconWrapper>
               <AccountBalanceWalletIcon />
             </AddressIconWrapper>
-            <CustomTooltip
-              title={errors.address?.message}
-              placement="bottom"
-              textColor={PRIMARY_RED}
-              backgroundColor={SECONDARY_GREY_1}
-              textBold>
-              <StyledAddressInputBase
-                placeholder={t('address')}
-                {...register('address')}
-                onBlur={() => setInputVisible(false)}
-              />
-            </CustomTooltip>
+            <StyledAddressInputBase
+              placeholder={t('address')}
+              {...register('address')}
+              onBlur={() => setInputVisible(false)}
+            />
           </AddressInput>
         </form>
       )}

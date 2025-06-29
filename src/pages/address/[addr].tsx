@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNotification } from '@hooks/UseNotificationHook';
-import { addAddress } from '@store/app/AppReducer';
+import { addAddress, clearPplns } from '@store/app/AppReducer';
 import { useDispatch } from '@store/store';
 import { validateAddress } from '@utils/Utils';
 import { getPplns } from '@store/app/AppThunks';
@@ -19,6 +19,7 @@ const AddressPage = () => {
   useEffect(() => {
     if (addr && typeof addr === 'string') {
       try {
+        dispatch(clearPplns());
         validateAddress(addr);
         dispatch(addAddress(addr));
         dispatch(getPplns(addr));
@@ -26,6 +27,7 @@ const AddressPage = () => {
         showError({
           message: t('invalidAddress'),
           options: {
+            position: 'bottom-center',
             toastId: 'invalid-address'
           }
         });
