@@ -8,6 +8,7 @@ export const beautifierConfig: Record<number, KeysMap> = {
     h: 'blockHeight',
     b: 'blockHash',
     x: 'txId',
+    f: 'fee',
     m: 'amount',
     s: 'shares',
     t: 'totalShares',
