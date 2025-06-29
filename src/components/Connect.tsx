@@ -33,92 +33,50 @@ const Connect = () => {
   const dispatch = useDispatch();
   const address = useSelector(getAddress);
   const router = useRouter();
-  const [inputValue, setInputValue] = useState<string>('');
   const [inputVisible, setInputVisible] = useState(false);
   const isMobile = isMobileDevice();
-  const inputRef = useRef<HTMLElement | null>(null);
 
   const validationSchema = Yup.object().shape({
     address: Yup.string()
       .required(t('addressRequired'))
       .matches(/^[a-zA-Z0-9]{30,}$/, t('invalidAddressFormat'))
+      .test('is-valid-address', t('invalidAddress'), (value: any) => {
+        try {
+          return !!validateAddress(value);
+        } catch {
+          return false;
+        }
+      })
   });
 
   const {
     register,
     handleSubmit,
-    setError,
-    reset,
-    formState: { errors }
+    formState: { errors },
+    setFocus
   } = useForm<ConnectFormData>({
     resolver: yupResolver(validationSchema)
   });
 
   const onSubmit = (data: ConnectFormData) => {
-    try {
-      dispatch(clearAddress());
-      validateAddress(data.address);
-      router.replace(`/address/${data.address}`);
-      dispatch(addAddress(data.address));
-      dispatch(fetchPplns(data.address));
-    } catch (err) {
-      setError('address', {
-        type: 'manual',
-        message: t('invalidAddress')
-      });
-    }
-  };
-
-  const onChangeAddress = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
-    dispatch(stopPplns());
+    dispatch(clearAddress());
+    router.replace(`/address/${data.address}`);
+    dispatch(addAddress(data.address));
+    dispatch(fetchPplns(data.address));
   };
 
   const handleDisplayInput = () => {
     setInputVisible(true);
+    setTimeout(() => {
+      setFocus('address');
+    }, 500);
   };
 
   useEffect(() => {
     if (address) {
-      setInputValue(address);
       setInputVisible(false);
-      reset({ address });
-    } else {
-      setInputVisible(true);
     }
   }, [address]);
-
-  useEffect(() => {
-    if (!inputVisible) return;
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setInputVisible(false);
-      }
-    };
-
-    const handleClickOutside = (event: MouseEvent) => {
-      if (inputVisible && inputRef.current && !inputRef.current.contains(event.target as Node)) {
-        setInputVisible(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [inputVisible]);
-
-  useEffect(() => {
-    if (inputVisible) {
-      setInputValue('');
-      inputRef.current?.focus();
-    } else if (address) {
-      setInputValue(address);
-    }
-  }, [inputVisible]);
 
   return (
     <>
@@ -135,16 +93,9 @@ const Connect = () => {
               backgroundColor={SECONDARY_GREY_1}
               textBold>
               <StyledAddressInputBase
-                ref={(e) => {
-                  inputRef.current = e as HTMLElement;
-                  const registerRef = register('address').ref;
-                  if (registerRef) {
-                    registerRef(e);
-                  }
-                }}
-                value={inputValue}
                 placeholder={t('address')}
-                onChange={onChangeAddress}
+                {...register('address')}
+                onBlur={() => setInputVisible(false)}
               />
             </CustomTooltip>
           </AddressInput>
