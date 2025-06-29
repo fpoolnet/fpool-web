@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
@@ -12,19 +12,12 @@ import {
 } from '@components/styled/AddressInput';
 import { getAddress } from '@store/app/AppSelectors';
 import { useDispatch, useSelector } from '@store/store';
-import {
-  PRIMARY_BLACK,
-  PRIMARY_RED,
-  PRIMARY_WHITE,
-  SECONDARY_BLUE_1,
-  SECONDARY_GREY_1
-} from '@styles/colors';
+import { PRIMARY_RED, SECONDARY_GREY_1 } from '@styles/colors';
 import { getPplns as fetchPplns, stopPplns } from '@store/app/AppThunks';
 import CustomTooltip from './common/CustomTooltip';
 import { addAddress, clearAddress } from '@store/app/AppReducer';
 import { isMobileDevice, truncateAddress, validateAddress } from '@utils/Utils';
 import { Box } from '@mui/system';
-import CustomButton from './common/CustomButton';
 import {
   ConnectedAddressButton,
   ConnectedAddressIconWrapper,
@@ -43,6 +36,7 @@ const Connect = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [inputVisible, setInputVisible] = useState(false);
   const isMobile = isMobileDevice();
+  const inputRef = useRef<HTMLElement | null>(null);
 
   const validationSchema = Yup.object().shape({
     address: Yup.string()
@@ -95,6 +89,28 @@ const Connect = () => {
     }
   }, [address]);
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setInputVisible(false);
+      }
+    };
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (inputVisible && inputRef.current && !inputRef.current.contains(event.target as Node)) {
+        setInputVisible(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [inputVisible]);
+
   return (
     <>
       {inputVisible && (
@@ -110,11 +126,16 @@ const Connect = () => {
               backgroundColor={SECONDARY_GREY_1}
               textBold>
               <StyledAddressInputBase
+                ref={(e) => {
+                  inputRef.current = e as HTMLElement;
+                  const registerRef = register('address').ref;
+                  if (registerRef) {
+                    registerRef(e);
+                  }
+                }}
                 value={inputValue}
                 placeholder={t('address')}
-                {...register('address', {
-                  onChange: onChangeAddress
-                })}
+                onChange={onChangeAddress}
               />
             </CustomTooltip>
           </AddressInput>
@@ -126,7 +147,7 @@ const Connect = () => {
             <ConnectedAddressIconWrapper>
               <AccountBalanceWalletIcon />
             </ConnectedAddressIconWrapper>
-            <StyledAddressButton onClick={(event) => handleDisplayInput()}>
+            <StyledAddressButton onClick={handleDisplayInput}>
               {isMobile ? truncateAddress(address) : address}
             </StyledAddressButton>
           </ConnectedAddressButton>
