@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import CustomTable from '@components/common/CustomTable';
 import ProgressLoader from '@components/common/ProgressLoader';
 import CenteredContentContainer from '@components/styled/CenteredContentContainer';
-import { getIsLoading, getPplns, getPplnsCount } from '@store/app/AppSelectors';
+import { getAddress, getIsLoading, getPplns, getPplnsCount } from '@store/app/AppSelectors';
 import { useSelector } from '@store/store';
 import transactionsColumns from './PplnsColumns';
 
@@ -12,6 +12,7 @@ const PplnsTable = () => {
   const pplnsCount = useSelector(getPplnsCount);
   const isLoading = useSelector(getIsLoading);
   const pplns = useSelector(getPplns);
+  const address = useSelector(getAddress);
 
   const [dataTable, setDataTable] = useState<any>([]);
 
@@ -25,14 +26,12 @@ const PplnsTable = () => {
 
   return (
     <CenteredContentContainer>
-      {isLoading && <ProgressLoader value={pplns.length} />}
-      {!isLoading && (
+      {isLoading && address && <ProgressLoader value={pplns.length} />}
+      {!isLoading && address && (
         <Box
           sx={{
             width: '100%'
-          }}
-          // onScroll={handleScroll}
-        >
+          }}>
           <CustomTable
             columns={columns}
             rows={dataTable}

@@ -22,6 +22,10 @@ interface CustomButtonProps {
   type?: 'button' | 'submit';
   width?: number;
   size?: 'small' | 'medium' | 'large' | undefined;
+  textColor?: string;
+  backgroundColor?: string;
+  textHoverColor?: string;
+  hoverBackgroundColor?: string;
 }
 
 const CustomButton = (props: CustomButtonProps) => {
@@ -36,9 +40,15 @@ const CustomButton = (props: CustomButtonProps) => {
     width,
     type,
     endIcon,
-    textBold
+    textBold,
+    textColor,
+    backgroundColor,
+    textHoverColor,
+    hoverBackgroundColor
   } = props;
+
   const IconComponent = iconName ? getIcon(iconName) : undefined;
+
   return (
     <Button
       onClick={(event: any) => {
@@ -50,8 +60,8 @@ const CustomButton = (props: CustomButtonProps) => {
       size={size}
       sx={{
         borderRadius: '5px',
-        color: outlined ? PRIMARY_BLACK : PRIMARY_WHITE,
-        backgroundColor: outlined ? 'transparent' : PRIMARY_BLACK,
+        color: outlined ? textColor || PRIMARY_BLACK : textColor || PRIMARY_WHITE,
+        backgroundColor: outlined ? 'transparent' : backgroundColor || PRIMARY_BLACK,
         border: `1px solid${PRIMARY_BLACK}`,
         fontWeight: textBold ? 'bolder' : 'unset',
         display: 'flex',
@@ -63,9 +73,9 @@ const CustomButton = (props: CustomButtonProps) => {
           color: PRIMARY_GREY
         },
         '&:hover': {
-          backgroundColor: PRIMARY_BLUE,
+          backgroundColor: hoverBackgroundColor || PRIMARY_BLUE,
           border: `1px solid${SECONDARY_BLUE_1}`,
-          color: PRIMARY_WHITE
+          color: textHoverColor || PRIMARY_WHITE
         },
         lineHeight: 'unset',
         textTransform: 'unset',
@@ -73,11 +83,15 @@ const CustomButton = (props: CustomButtonProps) => {
         paddingX: { xs: '5px' }
       }}>
       {IconComponent && !endIcon && (
-        <IconComponent sx={{ color: outlined ? PRIMARY_BLACK : PRIMARY_WHITE }} />
+        <IconComponent
+          sx={{ color: outlined ? textColor || PRIMARY_BLACK : textColor || PRIMARY_WHITE }}
+        />
       )}
       {label}
       {IconComponent && endIcon && (
-        <IconComponent sx={{ color: outlined ? PRIMARY_BLACK : PRIMARY_WHITE }} />
+        <IconComponent
+          sx={{ color: outlined ? textColor || PRIMARY_BLACK : textColor || PRIMARY_WHITE }}
+        />
       )}
       {children}
     </Button>

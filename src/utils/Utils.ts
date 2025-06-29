@@ -47,3 +47,7 @@ export const validateAddress = (addr: string) => {
 
 export const getTimeBeforeDaysInSeconds = (days: number): number =>
   Math.ceil(Date.now() / 1000) - days * 24 * 60 * 60;
+
+export const truncateAddress = (addr: string) => {
+  return `${addr.slice(0, 10)}...${addr.slice(-10)}`;
+};
