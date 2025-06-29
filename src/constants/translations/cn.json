@@ -9,6 +9,7 @@
   "totalShares": "总股份",
   "profit": "利润 (FLC)",
   "pageNotFound": "找不到该页面",
+  "loading": "加载中...",
   "languages": {
     "en": "English",
     "ru": "Русский",
