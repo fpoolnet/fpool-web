@@ -75,11 +75,7 @@ const Connect = () => {
   };
 
   const handleDisplayInput = () => {
-    setInputVisible(true); // Make the input visible
-    setTimeout(() => {
-      setInputValue('');
-      inputRef.current?.focus();
-    }, 500);
+    setInputVisible(true);
   };
 
   useEffect(() => {
@@ -93,6 +89,7 @@ const Connect = () => {
   }, [address]);
 
   useEffect(() => {
+    if (!inputVisible) return;
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setInputVisible(false);
@@ -112,6 +109,15 @@ const Connect = () => {
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('keydown', handleKeyDown);
     };
+  }, [inputVisible]);
+
+  useEffect(() => {
+    if (inputVisible) {
+      setInputValue('');
+      inputRef.current?.focus();
+    } else if (address) {
+      setInputValue(address);
+    }
   }, [inputVisible]);
 
   return (

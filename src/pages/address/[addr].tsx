@@ -37,7 +37,8 @@ const AddressPage = () => {
     <Box
       sx={{
         width: '100%',
-        maxWidth: 800
+        maxWidth: 800,
+        marginBottom: '40px'
       }}>
       <PplnsTable />
     </Box>
