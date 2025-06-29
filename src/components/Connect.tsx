@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
@@ -12,9 +12,7 @@ import {
 } from '@components/styled/AddressInput';
 import { getAddress } from '@store/app/AppSelectors';
 import { useDispatch, useSelector } from '@store/store';
-import { PRIMARY_RED, SECONDARY_GREY_1 } from '@styles/colors';
-import { getPplns as fetchPplns, stopPplns } from '@store/app/AppThunks';
-import CustomTooltip from './common/CustomTooltip';
+import { getPplns as fetchPplns } from '@store/app/AppThunks';
 import { addAddress, clearAddress } from '@store/app/AppReducer';
 import { isMobileDevice, truncateAddress, validateAddress } from '@utils/Utils';
 import { Box } from '@mui/system';
@@ -31,12 +29,14 @@ interface ConnectFormData {
 
 const Connect = () => {
   const { t } = useTranslation();
+  const { showError } = useNotification();
   const dispatch = useDispatch();
   const address = useSelector(getAddress);
   const router = useRouter();
-  const [inputVisible, setInputVisible] = useState(false);
   const isMobile = isMobileDevice();
-  const { showError } = useNotification();
+
+  const [inputVisible, setInputVisible] = useState(false);
+  const [inputValue, setInputValue] = useState<string>('');
 
   const validationSchema = Yup.object().shape({
     address: Yup.string()
@@ -67,7 +67,12 @@ const Connect = () => {
     dispatch(fetchPplns(data.address));
   };
 
+  const onChangeAddress = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
+  };
+
   const handleDisplayInput = () => {
+    setInputValue('');
     setInputVisible(true);
     setTimeout(() => {
       setFocus('address');
@@ -82,6 +87,11 @@ const Connect = () => {
 
   useEffect(() => {
     if (errors.address?.message) {
+      if (isMobile) {
+        const inputElement = document.querySelector('input[name="address"]') as HTMLInputElement;
+        inputElement?.blur();
+      }
+
       showError({
         message: errors.address?.message,
         options: {
@@ -101,9 +111,13 @@ const Connect = () => {
               <AccountBalanceWalletIcon />
             </AddressIconWrapper>
             <StyledAddressInputBase
+              value={inputValue}
               placeholder={t('address')}
-              {...register('address')}
-              onBlur={() => setInputVisible(false)}
+              {...register('address', {
+                onChange: onChangeAddress,
+                onBlur: () => setInputVisible(false)
+              })}
+              inputProps={{ 'aria-label': 'search', autoComplete: 'off' }}
             />
           </AddressInput>
         </form>

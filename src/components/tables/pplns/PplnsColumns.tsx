@@ -1,4 +1,4 @@
-import CustomTooltip from '@components/common/CustomTooltip';
+import numeral from 'numeral';
 import { Chip } from '@mui/material';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
@@ -53,6 +53,18 @@ const transactionsColumns = () => {
       cellClassName: 'text-bold'
     },
     {
+      headerName: t('fee'),
+      field: 'fee',
+      flex: 1,
+      minWidth: 120,
+      headerClassName: 'text-blue text-uppercase',
+      cellClassName: 'text-blue text-bold',
+      renderCell: (params: any) => {
+        const formattedValue = numeral(params.value).format('0,0');
+        return <Chip label={formattedValue} sx={{ fontWeight: 'bold' }} size="small" clickable />;
+      }
+    },
+    {
       headerName: t('profit'),
       field: 'amount',
       flex: 1,
@@ -68,7 +80,7 @@ const transactionsColumns = () => {
           size="small"
           component="a"
           target="_blank"
-          href={`${EXPLORER_URL}/tx/${params.row.txHash}`}
+          href={`${EXPLORER_URL}/tx/${params.row.txId}`}
           clickable
         />
       )

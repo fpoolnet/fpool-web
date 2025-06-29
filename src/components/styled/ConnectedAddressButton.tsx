@@ -29,6 +29,7 @@ export const ConnectedAddressIconWrapper = styled('div')(({ theme }) => ({
 export const StyledAddressButton = styled('button')(({ theme }) => ({
   color: 'inherit',
   backgroundColor: 'transparent',
+  letterSpacing: '0.05em',
   border: 'none',
   cursor: 'pointer',
   width: '100%',

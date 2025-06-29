@@ -3,8 +3,9 @@ export interface IPplns {
   workerId: string;
   blockHeight: number;
   blockHash: string;
+  fee: number;
   amount: number;
-  txHash: string;
+  txId: string;
   shares: number;
   totalShares: number;
   createdAt: string;

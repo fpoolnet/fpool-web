@@ -7,6 +7,7 @@ export const beautifierConfig: Record<number, KeysMap> = {
     w: 'workerId',
     h: 'blockHeight',
     b: 'blockHash',
+    x: 'txId',
     m: 'amount',
     s: 'shares',
     t: 'totalShares',
