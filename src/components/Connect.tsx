@@ -75,8 +75,11 @@ const Connect = () => {
   };
 
   const handleDisplayInput = () => {
-    setInputValue('');
-    setInputVisible(true);
+    setInputVisible(true); // Make the input visible
+    setTimeout(() => {
+      setInputValue('');
+      inputRef.current?.focus();
+    }, 500);
   };
 
   useEffect(() => {

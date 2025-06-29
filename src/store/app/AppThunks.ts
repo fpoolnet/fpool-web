@@ -15,7 +15,7 @@ export const getPplns = createAppAsyncThunk(
         oneose: () => {
           setTimeout(() => {
             dispatch(setLoader(false));
-          }, 1500);
+          }, 500);
         }
       });
     } catch (err: any) {
