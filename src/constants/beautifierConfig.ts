@@ -3,7 +3,7 @@ interface KeysMap {
 }
 
 export const beautifierConfig: Record<number, KeysMap> = {
-  35504: {
+  35505: {
     w: 'workerId',
     h: 'blockHeight',
     b: 'blockHash',
