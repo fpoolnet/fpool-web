@@ -19,12 +19,12 @@ class MiningService {
 
     const filters: Filter[] = [
       {
-        kinds: [35504],
+        kinds: [35505],
         since: getTimeBeforeDaysInSeconds(5),
         [`#a`]: [address]
       },
       {
-        kinds: [35504],
+        kinds: [35505],
         limit: 500,
         [`#a`]: [address]
       }

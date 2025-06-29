@@ -48,7 +48,7 @@ const transactionsColumns = () => {
       headerName: t('totalShares'),
       field: 'totalShares',
       flex: 2,
-      minWidth: 140,
+      minWidth: 120,
       headerClassName: 'text-blue text-uppercase',
       cellClassName: 'text-bold'
     },
