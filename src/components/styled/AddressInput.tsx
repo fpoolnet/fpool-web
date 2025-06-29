@@ -1,7 +1,7 @@
 import InputBase from '@mui/material/InputBase';
 import { alpha, styled } from '@mui/material/styles';
 
-export const SearchInput = styled('div')(({ theme }) => ({
+export const AddressInput = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
@@ -16,7 +16,7 @@ export const SearchInput = styled('div')(({ theme }) => ({
   }
 }));
 
-export const SearchIconWrapper = styled('div')(({ theme }) => ({
+export const AddressIconWrapper = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),
   height: '100%',
   position: 'absolute',
@@ -26,7 +26,7 @@ export const SearchIconWrapper = styled('div')(({ theme }) => ({
   justifyContent: 'center'
 }));
 
-export const StyledInputBase = styled(InputBase)(({ theme }) => ({
+export const StyledAddressInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   width: '100%',
   '& .MuiInputBase-input': {

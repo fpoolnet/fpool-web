@@ -5,7 +5,11 @@ import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import { SearchIconWrapper, SearchInput, StyledInputBase } from '@components/styled/SearchInput';
+import {
+  AddressIconWrapper,
+  AddressInput,
+  StyledAddressInputBase
+} from '@components/styled/AddressInput';
 import { getAddress } from '@store/app/AppSelectors';
 import { useDispatch, useSelector } from '@store/store';
 import {
@@ -21,6 +25,11 @@ import { addAddress, clearAddress } from '@store/app/AppReducer';
 import { isMobileDevice, truncateAddress, validateAddress } from '@utils/Utils';
 import { Box } from '@mui/system';
 import CustomButton from './common/CustomButton';
+import {
+  ConnectedAddressButton,
+  ConnectedAddressIconWrapper,
+  StyledAddressButton
+} from './styled/ConnectedAddressButton';
 
 interface ConnectFormData {
   address: string;
@@ -72,6 +81,7 @@ const Connect = () => {
   };
 
   const handleDisplayInput = () => {
+    setInputValue('');
     setInputVisible(true);
   };
 
@@ -89,17 +99,17 @@ const Connect = () => {
     <>
       {inputVisible && (
         <form onSubmit={handleSubmit(onSubmit)}>
-          <SearchInput>
-            <SearchIconWrapper>
+          <AddressInput>
+            <AddressIconWrapper>
               <AccountBalanceWalletIcon />
-            </SearchIconWrapper>
+            </AddressIconWrapper>
             <CustomTooltip
               title={errors.address?.message}
               placement="bottom"
               textColor={PRIMARY_RED}
               backgroundColor={SECONDARY_GREY_1}
               textBold>
-              <StyledInputBase
+              <StyledAddressInputBase
                 value={inputValue}
                 placeholder={t('address')}
                 {...register('address', {
@@ -107,22 +117,19 @@ const Connect = () => {
                 })}
               />
             </CustomTooltip>
-          </SearchInput>
+          </AddressInput>
         </form>
       )}
       {!inputVisible && address && (
         <Box display="flex" alignItems="center">
-          <CustomButton
-            label={isMobile ? truncateAddress(address) : address}
-            onClick={(event) => handleDisplayInput()}
-            size={isMobile ? 'small' : 'medium'}
-            textColor={PRIMARY_BLACK}
-            backgroundColor={PRIMARY_WHITE}
-            textHoverColor={SECONDARY_BLUE_1}
-            hoverBackgroundColor={PRIMARY_WHITE}
-            iconName="AccountBalanceWalletIcon"
-            textBold
-          />
+          <ConnectedAddressButton>
+            <ConnectedAddressIconWrapper>
+              <AccountBalanceWalletIcon />
+            </ConnectedAddressIconWrapper>
+            <StyledAddressButton onClick={(event) => handleDisplayInput()}>
+              {isMobile ? truncateAddress(address) : address}
+            </StyledAddressButton>
+          </ConnectedAddressButton>
         </Box>
       )}
     </>

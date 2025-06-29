@@ -24,6 +24,7 @@ interface CustomButtonProps {
   size?: 'small' | 'medium' | 'large' | undefined;
   textColor?: string;
   backgroundColor?: string;
+  borderColor?: string;
   textHoverColor?: string;
   hoverBackgroundColor?: string;
 }
@@ -44,7 +45,8 @@ const CustomButton = (props: CustomButtonProps) => {
     textColor,
     backgroundColor,
     textHoverColor,
-    hoverBackgroundColor
+    hoverBackgroundColor,
+    borderColor
   } = props;
 
   const IconComponent = iconName ? getIcon(iconName) : undefined;
@@ -62,7 +64,7 @@ const CustomButton = (props: CustomButtonProps) => {
         borderRadius: '5px',
         color: outlined ? textColor || PRIMARY_BLACK : textColor || PRIMARY_WHITE,
         backgroundColor: outlined ? 'transparent' : backgroundColor || PRIMARY_BLACK,
-        border: `1px solid${PRIMARY_BLACK}`,
+        border: `1px solid${borderColor || PRIMARY_BLACK}`,
         fontWeight: textBold ? 'bolder' : 'unset',
         display: 'flex',
         justifyContent: 'center',
@@ -80,7 +82,7 @@ const CustomButton = (props: CustomButtonProps) => {
         lineHeight: 'unset',
         textTransform: 'unset',
         ...setWidthStyle(width),
-        paddingX: { xs: '5px' }
+        paddingX: { xs: '5px', md: '8px' }
       }}>
       {IconComponent && !endIcon && (
         <IconComponent

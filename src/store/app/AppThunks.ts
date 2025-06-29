@@ -13,7 +13,9 @@ export const getPplns = createAppAsyncThunk(
           dispatch(addPplns(pplns));
         },
         oneose: () => {
-          dispatch(setLoader(false));
+          setTimeout(() => {
+            dispatch(setLoader(false));
+          }, 1500);
         }
       });
     } catch (err: any) {

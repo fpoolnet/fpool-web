@@ -32,7 +32,7 @@ const ProgressLoader = ({ value, ...otherProps }: LoaderProps) => {
         {t('loading')}
         {value ? Math.round(value) : null}
       </Typography>
-      <LinearProgress variant="determinate" value={value} {...otherProps} sx={{ width: '100%' }} />
+      <LinearProgress {...otherProps} sx={{ width: '100%' }} />
     </Box>
   );
 };
