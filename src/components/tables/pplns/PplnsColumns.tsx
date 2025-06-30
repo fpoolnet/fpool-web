@@ -61,7 +61,7 @@ const transactionsColumns = () => {
       cellClassName: 'text-blue text-bold',
       renderCell: (params: any) => {
         const formattedValue = numeral(params.value).format('0,0');
-        return <Chip label={formattedValue} sx={{ fontWeight: 'bold' }} size="small" clickable />;
+        return <Chip label={formattedValue} sx={{ fontWeight: 'bold' }} size="small" />;
       }
     },
     {
