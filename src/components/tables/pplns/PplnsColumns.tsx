@@ -26,8 +26,10 @@ const transactionsColumns = () => {
       cellClassName: 'text-blue',
       renderCell: (params: any) => (
         <Chip
+          color="warning"
+          variant="outlined"
           label={params.value}
-          sx={{ fontWeight: 'bold' }}
+          sx={{ fontWeight: 'bold', borderRadius: 1 }}
           size="small"
           component="a"
           target="_blank"
@@ -60,7 +62,7 @@ const transactionsColumns = () => {
       headerClassName: 'text-blue text-uppercase',
       cellClassName: 'text-blue text-bold',
       renderCell: (params: any) => {
-        const formattedValue = numeral(params.value).format('0,0');
+        const formattedValue = numeral(params.value).format('0,0').replace(/,/g, ' ');
         return <Chip label={formattedValue} sx={{ fontWeight: 'bold' }} size="small" />;
       }
     },
