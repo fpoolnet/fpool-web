@@ -26,8 +26,6 @@ const transactionsColumns = () => {
       cellClassName: 'text-blue',
       renderCell: (params: any) => (
         <Chip
-          color="warning"
-          variant="outlined"
           label={params.value}
           sx={{ fontWeight: 'bold', borderRadius: 1 }}
           size="small"
