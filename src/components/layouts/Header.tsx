@@ -14,7 +14,7 @@ const Header = () => {
     <AppBar position="fixed" className={styles.header}>
       <Toolbar disableGutters className={styles.toolbar}>
         <Box>
-          <Link href="/" passHref>
+          <Link href="https://fpool.net" passHref>
             <Image
               src="/assets/icon.svg"
               alt="Mobile Logo"
@@ -23,7 +23,7 @@ const Header = () => {
               height={60}
             />
           </Link>
-          <Link href="/" passHref>
+          <Link href="https://fpool.net" passHref>
             <Image
               src="/assets/logo.svg"
               alt="Logo"
