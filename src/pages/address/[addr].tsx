@@ -1,29 +1,31 @@
+import PplnsTable from '@components/tables/pplns/PplnsTable';
+import { useNotification } from '@hooks/UseNotificationHook';
+import { Box } from '@mui/material';
+import { addAddress, clearPplns } from '@store/app/AppReducer';
+import { getSettings } from '@store/app/AppSelectors';
+import { changeRelay, getPplns } from '@store/app/AppThunks';
+import { useDispatch, useSelector } from '@store/store';
+import { validateAddress } from '@utils/Utils';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNotification } from '@hooks/UseNotificationHook';
-import { addAddress, clearPplns } from '@store/app/AppReducer';
-import { useDispatch } from '@store/store';
-import { validateAddress } from '@utils/Utils';
-import { getPplns } from '@store/app/AppThunks';
-import { Box } from '@mui/material';
-import PplnsTable from '@components/tables/pplns/PplnsTable';
 
 const AddressPage = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { addr } = router.query;
+  const settings = useSelector(getSettings);
   const { showError } = useNotification();
 
   useEffect(() => {
     if (addr && typeof addr === 'string') {
-      try {
-        dispatch(clearPplns());
-        validateAddress(addr);
+      dispatch(clearPplns());
+      const isAddrValid = validateAddress(addr, settings.network);
+      if (isAddrValid) {
         dispatch(addAddress(addr));
         dispatch(getPplns(addr));
-      } catch (err) {
+      } else {
         showError({
           message: t('invalidAddress'),
           options: {

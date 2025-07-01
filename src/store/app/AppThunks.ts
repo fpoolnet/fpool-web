@@ -2,6 +2,7 @@ import MiningService from '@services/api/MiningService';
 import { createAppAsyncThunk } from '@store/createAppAsyncThunk';
 import { addPplns, clearPplns, setLoader } from './AppReducer';
 import { beautify } from '@utils/beautifierUtils';
+import { ISettings } from '@objects/interfaces/ISettings';
 
 export const getPplns = createAppAsyncThunk(
   'relay/getPplns',
@@ -40,3 +41,19 @@ export const stopPplns = createAppAsyncThunk('relay/stopPplns', async (_, { reje
     });
   }
 });
+
+export const changeRelay = createAppAsyncThunk(
+  'relay/changeRelay',
+  async (settings: ISettings, { rejectWithValue, dispatch }) => {
+    try {
+      await MiningService.changeRelay(settings.relay);
+      return settings;
+    } catch (err: any) {
+      return rejectWithValue({
+        message: err?.message,
+        code: err.code,
+        status: err.status
+      });
+    }
+  }
+);

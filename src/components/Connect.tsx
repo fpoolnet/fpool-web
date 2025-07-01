@@ -10,7 +10,7 @@ import {
   AddressInput,
   StyledAddressInputBase
 } from '@components/styled/AddressInput';
-import { getAddress } from '@store/app/AppSelectors';
+import { getAddress, getSettings } from '@store/app/AppSelectors';
 import { useDispatch, useSelector } from '@store/store';
 import { getPplns as fetchPplns } from '@store/app/AppThunks';
 import { addAddress, clearAddress } from '@store/app/AppReducer';
@@ -31,10 +31,10 @@ const Connect = () => {
   const { t } = useTranslation();
   const { showError } = useNotification();
   const dispatch = useDispatch();
-  const address = useSelector(getAddress);
   const router = useRouter();
+  const address = useSelector(getAddress);
   const isMobile = isMobileDevice();
-
+  const settings = useSelector(getSettings);
   const [inputVisible, setInputVisible] = useState(false);
   const [inputValue, setInputValue] = useState<string>('');
 
@@ -43,11 +43,7 @@ const Connect = () => {
       .required(t('addressRequired'))
       .matches(/^[a-zA-Z0-9]{30,}$/, t('invalidAddressFormat'))
       .test('is-valid-address', t('invalidAddress'), (value: any) => {
-        try {
-          return !!validateAddress(value);
-        } catch {
-          return false;
-        }
+       return validateAddress(value, settings.network);
       })
   });
 
@@ -82,6 +78,8 @@ const Connect = () => {
   useEffect(() => {
     if (address) {
       setInputVisible(false);
+    } else {
+      setInputVisible(true);
     }
   }, [address]);
 
@@ -115,7 +113,9 @@ const Connect = () => {
               placeholder={t('address')}
               {...register('address', {
                 onChange: onChangeAddress,
-                onBlur: () => setInputVisible(false)
+                onBlur: () =>{
+                   if(address) {setInputVisible(false);}
+                }
               })}
               inputProps={{ 'aria-label': 'search', autoComplete: 'off' }}
             />

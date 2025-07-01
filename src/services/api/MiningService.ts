@@ -1,17 +1,17 @@
 import { Filter } from 'nostr-tools';
 import { Observable } from 'rxjs';
-import { NOSTR_PRIVATE_KEY, RELAY_URL } from '@constants/config';
+import { RELAY_URL } from '@constants/config';
 import { NostrClient } from '@services/NostrClient';
 import { getTimeBeforeDaysInSeconds } from '@utils/Utils';
-import { beautify } from '@utils/beautifierUtils';
 import { SubscriptionParams } from 'nostr-tools/lib/types/relay';
 
-class MiningService {
+export class MiningService {
   public nostrClient: NostrClient;
   public pplnsSubscription: any;
 
-  constructor() {
-    this.nostrClient = new NostrClient({ relayUrl: RELAY_URL, privateKey: NOSTR_PRIVATE_KEY });
+  constructor(relayUrl: string, privateKey?: string) {
+    this.nostrClient = new NostrClient({ relayUrl, privateKey });
+    this.nostrClient.connect();
   }
 
   subscribePplns(address: string, subscriptionParams: SubscriptionParams) {
@@ -34,12 +34,23 @@ class MiningService {
     return this.pplnsSubscription;
   }
 
-  stopPplns() {
+  async stopPplns() {
     if (this.pplnsSubscription) {
-      this.pplnsSubscription.close();
+      await this.pplnsSubscription.close();
       this.pplnsSubscription = null;
+    }
+  }
+
+  async changeRelay(relayUrl: string, privateKey?: string) {
+    const currentRelayUrl = this.nostrClient.relay.url.replace(/\/+$/, '').toLowerCase();
+    const newRelayUrl = relayUrl.replace(/\/+$/, '').toLowerCase();
+    if (currentRelayUrl != newRelayUrl) {
+      await this.stopPplns();
+      await this.nostrClient.relay.close();
+      this.nostrClient = new NostrClient({ relayUrl, privateKey });
+      await this.nostrClient.connect();
     }
   }
 }
 
-export default new MiningService();
+export default new MiningService(RELAY_URL);

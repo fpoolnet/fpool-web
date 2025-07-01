@@ -4,14 +4,22 @@ import { SubscriptionParams } from 'nostr-tools/lib/types/relay';
 
 export class NostrClient {
   public relay: Relay;
-  private publicKey: string;
+  private publicKey?: string;
+  private privateKey?: string;
 
-  constructor(options: { relayUrl: string; privateKey: string }) {
+  constructor(options: { relayUrl: string; privateKey?: string }) {
     this.relay = new Relay(options.relayUrl);
-    this.relay.connect();
+    
 
-    const privateKeyUint8Array = hexStringToUint8Array(options.privateKey);
-    this.publicKey = getPublicKey(privateKeyUint8Array);
+    if (options.privateKey) {
+      this.privateKey = options.privateKey;
+      const privateKeyUint8Array = hexStringToUint8Array(options.privateKey);
+      this.publicKey = getPublicKey(privateKeyUint8Array);
+    }
+  }
+
+  async connect(){
+    await this.relay.connect();
   }
 
   subscribeEvent(filters: Filter[], subscriptionParams: SubscriptionParams) {

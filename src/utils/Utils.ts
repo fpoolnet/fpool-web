@@ -37,11 +37,23 @@ export const hexStringToUint8Array = (hexString: string): Uint8Array => {
   return array;
 };
 
-export const validateAddress = (addr: string) => {
+export const validateAddress = (addr: string, network?: string) => {
   try {
-    return address.toOutputScript(addr, networks.regtest);
+    let currentNet
+    switch (network) {
+      case 'testnet':
+        currentNet = networks.testnet;
+        break;
+      case 'regtest':
+        currentNet = networks.regtest;
+        break;
+      default:
+        currentNet = networks.bitcoin;
+        break;
+    } 
+    return true
   } catch (err) {
-    throw new CustomError(err);
+    return false
   }
 };
 

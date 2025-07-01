@@ -2,7 +2,9 @@
 import { ICustomError } from '@interfaces/ICustomError';
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { IPplns } from '@objects/interfaces/IPplns';
-import { getPplns, stopPplns } from '@store/app/AppThunks';
+import { changeRelay, getPplns, stopPplns } from '@store/app/AppThunks';
+import { ISettings } from '@objects/interfaces/ISettings';
+import { RELAY_URL } from '@constants/config';
 
 /* Instruments */
 
@@ -10,6 +12,7 @@ import { getPplns, stopPplns } from '@store/app/AppThunks';
 export interface AppState {
   address?: string;
   pplns: IPplns[];
+  settings: ISettings;
   isLoading: boolean;
   error?: ICustomError;
 }
@@ -17,6 +20,7 @@ export interface AppState {
 export const initialState: AppState = {
   address: undefined,
   pplns: [],
+  settings: { relay: RELAY_URL, network: 'mainnet' },
   isLoading: false,
   error: undefined
 };
@@ -43,21 +47,40 @@ export const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-
       .addCase(getPplns.pending, (state) => {
         state.pplns = [];
         state.isLoading = true;
       })
-      .addCase(getPplns.fulfilled, (state) => {})
+      .addCase(getPplns.fulfilled, (state) => {
+        state.error = undefined;
+      })
       .addCase(getPplns.rejected, (state, action) => {
         state.error = action.payload;
         state.isLoading = false;
       })
-      .addCase(stopPplns.pending, (state) => {})
+      .addCase(stopPplns.pending, (state) => {
+        state.error = undefined;
+      })
       .addCase(stopPplns.fulfilled, (state) => {
         state.pplns = [];
       })
       .addCase(stopPplns.rejected, (state, action) => {
+        state.error = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(changeRelay.pending, (state) => {
+        state.error = undefined;
+        state.pplns = [];
+        state.address = undefined;
+      })
+      .addCase(changeRelay.fulfilled, (state, action) => {
+        state.settings = {
+          ...state.settings,
+          relay: action.payload.relay,
+          network: action.payload.network
+        };
+      })
+      .addCase(changeRelay.rejected, (state, action) => {
         state.error = action.payload;
         state.isLoading = false;
       });

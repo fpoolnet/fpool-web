@@ -5,7 +5,7 @@ interface KeysMap {
 export const beautifierConfig: Record<number, KeysMap> = {
   35505: {
     w: 'workerId',
-    h: 'blockHeight',
+    height: 'blockHeight',
     b: 'blockHash',
     x: 'txId',
     f: 'fee',
