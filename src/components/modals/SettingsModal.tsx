@@ -88,6 +88,9 @@ const SettingsModal = ({ close }: SettingsModalProps) => {
       </Typography>
 
       <form onSubmit={handleSubmit(onSubmit)} style={{ width: '100%' }}>
+        <FormLabel component="legend" sx={{ paddingBottom: 1 }}>
+          {t('relay')}
+        </FormLabel>
         <CustomInput
           type="text"
           placeholder={t('relayUrl')}
