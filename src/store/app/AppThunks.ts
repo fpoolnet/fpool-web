@@ -50,7 +50,7 @@ export const changeRelay = createAppAsyncThunk(
       return settings;
     } catch (err: any) {
       return rejectWithValue({
-        message: err?.message,
+        message: err?.message || err,
         code: err.code,
         status: err.status
       });
